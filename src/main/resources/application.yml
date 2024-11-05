@@ -1,0 +1,21 @@
+server:
+  port: 8091
+
+spring:
+  config:
+    import: optional:file:./etc/secrets/config.properties
+  application:
+    name: notification-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+app:
+  notification:
+    from-email: ${NOTIFICATION_FROM_EMAIL}
+    from-name: ${NOTIFICATION_FROM_NAME}
+    resend:
+      api-key: ${RESEND_API_KEY}
