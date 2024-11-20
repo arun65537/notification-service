@@ -1,0 +1,50 @@
+{
+  "info": {
+    "name": "Notification Service API",
+    "_postman_id": "8f4c6d4a-73dd-4a2f-8c75-f7099d24c2ee",
+    "description": "Email notification endpoints for notification-service.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8091" },
+    { "key": "toEmail", "value": "xxxxxxxx@gmail.com" },
+    { "key": "subject", "value": "OrderNest Notification Test" },
+    { "key": "body", "value": "Hello from OrderNest notification-service." }
+  ],
+  "item": [
+    {
+      "name": "Email",
+      "item": [
+        {
+          "name": "Send Generic Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"{{toEmail}}\",\n  \"subject\": \"{{subject}}\",\n  \"body\": \"{{body}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/notifications/email",
+              "host": ["{{baseUrl}}"],
+              "path": ["notifications", "email"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
