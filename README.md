@@ -58,3 +58,10 @@ Import:
 
 ## Health endpoint
 - `GET /actuator/health`
+
+## GitHub Actions (Render deploy)
+This repo includes:
+- `.github/workflows/render-deploy.yml`
+
+To enable deployment from GitHub Actions, add this repository secret:
+- `RENDER_DEPLOY_HOOK_URL` = your Render deploy hook URL
