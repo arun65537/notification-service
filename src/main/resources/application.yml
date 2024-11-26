@@ -3,7 +3,7 @@ server:
 
 spring:
   config:
-    import: optional:file:./etc/secrets/config.properties
+    import: optional:file:/etc/secrets/config.properties
   application:
     name: notification-service
 
