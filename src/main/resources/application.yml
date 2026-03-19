@@ -34,7 +34,7 @@ management:
 app:
   kafka:
     topic:
-      auth-email-events: ${AUTH_EMAIL_EVENTS_TOPIC:auth.email.events}
+      email-events: ${EMAIL_EVENTS_TOPIC:notification.email.events}
   notification:
     from-email: ${NOTIFICATION_FROM_EMAIL}
     from-name: ${NOTIFICATION_FROM_NAME}
