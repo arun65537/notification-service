@@ -6,6 +6,24 @@ spring:
     import: optional:file:/etc/secrets/config.properties
   application:
     name: notification-service
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVICE_URL:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_AUTH_EMAIL_GROUP:notification-service}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    properties:
+      security:
+        protocol: ${KAFKA_SECURITY_PROTOCOL:SSL}
+      ssl:
+        truststore:
+          type: PEM
+          location: ${KAFKA_TRUSTSTORE_PATH:/app/ssl/ca.pem}
+        keystore:
+          type: PKCS12
+          location: ${KAFKA_KEYSTORE_PATH:/app/ssl/client.keystore.p12}
+          password: ${KAFKA_KEYSTORE_PASSWORD:changeit}
 
 management:
   endpoints:
@@ -14,6 +32,9 @@ management:
         include: health,info,metrics
 
 app:
+  kafka:
+    topic:
+      auth-email-events: ${AUTH_EMAIL_EVENTS_TOPIC:auth.email.events}
   notification:
     from-email: ${NOTIFICATION_FROM_EMAIL}
     from-name: ${NOTIFICATION_FROM_NAME}
