@@ -1,28 +1,28 @@
 server:
-  port: 8091
+  port: ${PORT:8090}
 
 spring:
   config:
-    import: optional:file:/etc/secrets/config.properties
+    import: optional:file:./etc/secrets/config.properties,optional:file:/etc/secrets/config.properties
   application:
     name: notification-service
   kafka:
     bootstrap-servers: ${KAFKA_SERVICE_URL:localhost:9092}
     consumer:
-      group-id: ${KAFKA_AUTH_EMAIL_GROUP:notification-service}
+      group-id: notification-service
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     properties:
       security:
-        protocol: ${KAFKA_SECURITY_PROTOCOL:SSL}
+        protocol: SSL
       ssl:
         truststore:
           type: PEM
-          location: ${KAFKA_TRUSTSTORE_PATH:/app/ssl/ca.pem}
+          location: ${KAFKA_TRUSTSTORE_PATH:${user.dir}/src/main/resources/ca.pem}
         keystore:
           type: PKCS12
-          location: ${KAFKA_KEYSTORE_PATH:/app/ssl/client.keystore.p12}
+          location: ${KAFKA_KEYSTORE_PATH:${user.dir}/src/main/resources/ca.pem}
           password: ${KAFKA_KEYSTORE_PASSWORD:changeit}
 
 management:
@@ -34,7 +34,7 @@ management:
 app:
   kafka:
     topic:
-      email-events: ${EMAIL_EVENTS_TOPIC:notification.email.events}
+      email-events: notification.email.events
   notification:
     from-email: ${NOTIFICATION_FROM_EMAIL}
     from-name: ${NOTIFICATION_FROM_NAME}
