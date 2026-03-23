@@ -1,9 +1,20 @@
-FROM eclipse-temurin:17-jdk
+# syntax=docker/dockerfile:1
 
+FROM gradle:8.10.2-jdk17 AS builder
 WORKDIR /app
-COPY . .
 
-RUN chmod +x ./gradlew && ./gradlew --no-daemon bootJar
+COPY build.gradle settings.gradle ./
+COPY src ./src
 
-EXPOSE 8091
-CMD ["java", "-jar", "build/libs/notification-service-0.0.1-SNAPSHOT.jar"]
+RUN gradle clean bootJar -x test --no-daemon
+
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /app
+
+COPY --from=builder /app/build/libs/*.jar app.jar
+COPY --from=builder /app/src/main/resources/ca.pem /app/ssl/ca.pem
+COPY --from=builder /app/src/main/resources/client.keystore.p12 /app/ssl/client.keystore.p12
+
+EXPOSE 8090
+
+CMD ["sh", "-c", "java -jar app.jar --server.port=${PORT:-8090}"]
