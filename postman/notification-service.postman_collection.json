@@ -2,26 +2,24 @@
   "info": {
     "name": "Notification Service API",
     "_postman_id": "8f4c6d4a-73dd-4a2f-8c75-f7099d24c2ee",
-    "description": "Email notification endpoints for notification-service.",
+    "description": "Simple Postman collection for notification-service APIs.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:8091" },
-    { "key": "toEmail", "value": "xxxxxxxx@gmail.com" },
+    { "key": "toEmail", "value": "user@example.com" },
     { "key": "subject", "value": "OrderNest Notification Test" },
-    { "key": "body", "value": "Hello from OrderNest notification-service." }
+    { "key": "body", "value": "<p>Hello from OrderNest notification-service.</p>" }
   ],
   "item": [
     {
       "name": "Email",
       "item": [
         {
-          "name": "Send Generic Email",
+          "name": "Send Email",
           "request": {
             "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"to\": \"{{toEmail}}\",\n  \"subject\": \"{{subject}}\",\n  \"body\": \"{{body}}\"\n}"
@@ -43,6 +41,44 @@
               }
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "Docs and Health",
+      "item": [
+        {
+          "name": "Swagger UI",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/swagger-ui/index.html",
+              "host": ["{{baseUrl}}"],
+              "path": ["swagger-ui", "index.html"]
+            }
+          }
+        },
+        {
+          "name": "OpenAPI JSON",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/v3/api-docs",
+              "host": ["{{baseUrl}}"],
+              "path": ["v3", "api-docs"]
+            }
+          }
+        },
+        {
+          "name": "Actuator Health",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/actuator/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["actuator", "health"]
+            }
+          }
         }
       ]
     }

@@ -1,67 +1,52 @@
 # Notification Service
 
-Dedicated email notification service for OrderNest.
+Email service for OrderNest.
 
-This service exposes a REST endpoint that sends emails using the Resend API.
+Default local URL: `http://localhost:8091`
 
-## Run
+## What it does
+- Accepts email requests via REST API
+- Sends email using Resend
+
+## Quick start
 ```bash
 ./gradlew bootRun
 ```
 
-Runs by default on `http://localhost:8091`.
-
-## Configuration
-This project loads extra config from:
+## Required config
+This service can load secrets from:
 - `./etc/secrets/config.properties`
 
-Sample file:
+Example:
 ```properties
 RESEND_API_KEY=re_xxxxxxxxx
 NOTIFICATION_FROM_EMAIL=onboarding@resend.dev
 NOTIFICATION_FROM_NAME=OrderNest Notification
 ```
 
-Replace `re_xxxxxxxxx` with your real Resend API key.
+## API + Swagger
+- Send email: `POST /notifications/email`
+- Swagger UI: `http://localhost:8091/swagger-ui/index.html`
+- OpenAPI JSON: `http://localhost:8091/v3/api-docs`
+- Health: `http://localhost:8091/actuator/health`
 
-## API
-### Send email
-`POST /notifications/email`
-
-Request body:
+Sample request:
 ```json
 {
   "to": "user@example.com",
   "subject": "Verify your email",
-  "body": "<p>Click this link to verify...</p>"
+  "body": "<p>Click this link to verify your account.</p>"
 }
-```
-
-Example `curl`:
-```bash
-curl --location 'http://localhost:8091/notifications/email' \
---header 'Content-Type: application/json' \
---data-raw '{
-  "to": "user@example.com",
-  "subject": "Hello from OrderNest",
-  "body": "<p>Your notification service is working.</p>"
-}'
 ```
 
 ## Postman
 Import:
 - `postman/notification-service.postman_collection.json`
 
-## Environment variables
-- `RESEND_API_KEY` (required, replace `re_xxxxxxxxx` with your real key)
-- `NOTIFICATION_FROM_EMAIL`, `NOTIFICATION_FROM_NAME`
-
-## Health endpoint
-- `GET /actuator/health`
-
-## GitHub Actions (Render deploy)
-This repo includes:
-- `.github/workflows/render-deploy.yml`
-
-To enable deployment from GitHub Actions, add this repository secret:
-- `RENDER_DEPLOY_HOOK_URL` = your Render deploy hook URL
+## Mermaid design
+```mermaid
+flowchart LR
+    S["SSO Service"] --> N["Notification Service"]
+    N --> R["Resend API"]
+    R --> U["User Inbox"]
+```
