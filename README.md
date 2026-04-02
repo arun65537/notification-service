@@ -3,6 +3,7 @@
 Email service for OrderNest.
 
 Default local URL: `http://localhost:8091`
+Live URL: `https://notification-service-b9le.onrender.com`
 
 ## What it does
 - Accepts email requests via REST API
@@ -29,6 +30,9 @@ NOTIFICATION_FROM_NAME=OrderNest Notification
 - Swagger UI: `http://localhost:8091/swagger-ui/index.html`
 - OpenAPI JSON: `http://localhost:8091/v3/api-docs`
 - Health: `http://localhost:8091/actuator/health`
+- Live Swagger UI: `https://notification-service-b9le.onrender.com/swagger-ui/index.html`
+- Live OpenAPI JSON: `https://notification-service-b9le.onrender.com/v3/api-docs`
+- Live Health: `https://notification-service-b9le.onrender.com/actuator/health`
 
 Sample request:
 ```json
