@@ -1,0 +1,9 @@
+.git
+.github
+.gradle
+.idea
+build
+out
+etc/secrets/config.properties
+*.iml
+*.log
