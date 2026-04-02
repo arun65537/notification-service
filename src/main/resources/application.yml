@@ -34,7 +34,11 @@ management:
 app:
   kafka:
     topic:
-      email-events: notification.email.events
+      sso-action-events: sso.action.event
+      order-status-events: order.status.events
+    consumer:
+      sso-action-group-id: notification-service-sso-action
+      order-status-group-id: notification-service-order-status
   notification:
     from-email: ${NOTIFICATION_FROM_EMAIL}
     from-name: ${NOTIFICATION_FROM_NAME}
