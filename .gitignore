@@ -20,6 +20,7 @@ logs/
 .env
 .env.*
 etc/secrets/config.properties
+src/main/resources/application-prod.yml
 
 # Java
 *.class
