@@ -2,12 +2,13 @@ server:
   port: ${PORT:8090}
 
 spring:
+  profiles:
+    default: local
   config:
-    import: optional:file:./etc/secrets/config.properties,optional:file:/etc/secrets/config.properties
+    import: optional:file:/etc/secrets/application-prod.yml
   application:
     name: notification-service
   kafka:
-    bootstrap-servers: ${KAFKA_SERVICE_URL:localhost:9092}
     consumer:
       group-id: notification-service
       auto-offset-reset: earliest
@@ -16,14 +17,6 @@ spring:
     properties:
       security:
         protocol: SSL
-      ssl:
-        truststore:
-          type: PEM
-          location: ${KAFKA_TRUSTSTORE_PATH:${user.dir}/src/main/resources/ca.pem}
-        keystore:
-          type: PKCS12
-          location: ${KAFKA_KEYSTORE_PATH:${user.dir}/src/main/resources/ca.pem}
-          password: ${KAFKA_KEYSTORE_PASSWORD:changeit}
 
 management:
   endpoints:
@@ -39,8 +32,3 @@ app:
     consumer:
       sso-action-group-id: notification-service-sso-action
       order-status-group-id: notification-service-order-status
-  notification:
-    from-email: ${NOTIFICATION_FROM_EMAIL}
-    from-name: ${NOTIFICATION_FROM_NAME}
-    resend:
-      api-key: ${RESEND_API_KEY}

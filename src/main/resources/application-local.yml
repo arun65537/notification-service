@@ -1,0 +1,19 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      ssl:
+        truststore:
+          type: PEM
+          location: ${user.dir}/src/main/resources/ca.pem
+        keystore:
+          type: PKCS12
+          location: ${user.dir}/src/main/resources/client.keystore.p12
+          password: changeit
+
+app:
+  notification:
+    from-email: onboarding@resend.dev
+    from-name: OrderNest Notification
+    resend:
+      api-key: ""
